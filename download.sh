@@ -56,12 +56,12 @@ fi
 log "Repository cloned successfully."
 
 # 5. Find and move the image files.
-log "Searching for .png and .jpeg files..."
+log "Searching for .png, .jpeg, and .jpg files..."
 # The `find` command searches for files.
 # -type f: only finds files (not directories).
-# \( -iname "*.png" -o -iname "*.jpeg" \): finds files ending with .png or .jpeg (case-insensitive).
-# -exec mv -t "$WALLPAPERS_DIR" {} +: executes the 'mv' command to move the found files to the target directory.
-find "$TEMP_DIR" -type f \( -iname "*.png" -o -iname "*.jpeg" -o -iname "*.jpg" \) -exec mv -v -t "$WALLPAPERS_DIR" {} +
+# \( -iname "*.png" -o -iname "*.jpeg" -o -iname "*.jpg" \): finds files with these extensions (case-insensitive).
+# -exec sh -c '...': executes a shell command for the found files. This is a portable way to move files to a directory.
+find "$TEMP_DIR" -type f \( -iname "*.png" -o -iname "*.jpeg" -o -iname "*.jpg" \) -exec sh -c 'mv -v "$@" "$0"' "$WALLPAPERS_DIR" {} +
 
 log "Files have been moved to '$WALLPAPERS_DIR'."
 
